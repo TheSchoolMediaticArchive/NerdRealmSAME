@@ -1,0 +1,44 @@
+{
+    "format_version": 2,
+    "header": {
+        "name": "FixesNStuff3.1",
+        "description": "Provides various fixes and quality of life improvements for Minecraft Bedrock Edition.",
+        "uuid": "f6aebf4e-2a58-4ed1-a37a-0de3d331f8c1",
+        "version": [
+            3,
+            0,
+            0
+        ],
+        "min_engine_version": [
+            1,
+            21,
+            80
+        ]
+    },
+    "modules": [
+        {
+            "type": "script",
+            "language": "javascript",
+            "uuid": "18882057-fa99-454d-96e5-491b66e72b87",
+            "entry": "scripts/main.js",
+            "version": [
+                1,
+                0,
+                0
+            ]
+        }
+    ],
+    "dependencies": [
+        {
+            "module_name": "@minecraft/server",
+            "version": "2.7.0"
+        },
+        {
+            "module_name": "@minecraft/server-ui",
+            "version": "2.0.0"
+        }
+    ],
+    "capabilities": [
+        "script_eval"
+    ]
+}
