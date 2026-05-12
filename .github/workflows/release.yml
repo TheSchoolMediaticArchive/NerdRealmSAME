@@ -1,0 +1,55 @@
+name: Build MCAddon Release
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-release:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Run Compiler
+        id: build
+        run: |
+          OUTPUT=$(node compile.js)
+
+          echo "$OUTPUT"
+
+          echo "build_output<<EOF" >> $GITHUB_OUTPUT
+          echo "$OUTPUT" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Get generated mcpack
+        id: mcpack
+        run: |
+          FILE=$(find . -name "*.mcpack" | head -n 1)
+
+          echo "file=$FILE" >> $GITHUB_OUTPUT
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: build-${{ github.run_number }}
+          name: Build ${{ github.run_number }}
+          body: |
+            Automated SAME Compiler build
+
+            Output:
+            ${{ steps.build.outputs.build_output }}
+
+          files: |
+            ${{ steps.mcpack.outputs.file }}
